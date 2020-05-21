@@ -1,0 +1,98 @@
+<section data-section="starter-kit" class="starter-kit">
+  <!-- Destop Version-->
+  <div class="sksection desk">
+    <div class="banner_section ninghty">
+      <div class="sk-flex-wrap">
+        <div class="sk-flex-item">
+          <h4 class="sk" id="fbsubtit">{{ section.settings.sub-title }}</h4>
+          <h3 class="sk">{{ section.settings.section-title }}</h3>
+          <h5 class="sk" id="secsubtit">{{ section.settings.secondsubtitle }}</h5>
+          <div id="sksecbtn"><a href="{{ section.settings.shop-kits}}" class="glam-btn">{{section.settings.button-text}}</a></div>
+        </div>
+        <div class="sk-flex-item">
+          <img draggable="false" class="lazyload" src="{{ section.settings.skdesktop | img_url: '10x' }}" data-src="{{ section.settings.skdesktop | img_url: '865x' }}">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Version-->
+  <div class="sksection mob">
+    <div class="banner_section ninghty mob">
+      <div class="sk-flex-wrap mob">
+        <div class="sk-flex-item">
+          <h4 class="sk" id="fbsubtitmob">{{ section.settings.sub-title}}</h4>
+          <h3 class="sk" id="fbtitmob">{{ section.settings.section-title}}</h3>   
+          <h5 class="sk" id="secsubtit">{{ section.settings.secondsubtitle }}</h5>
+        </div>
+        <div class="sk-flex-item">
+          <img id="mobimgsk" draggable="false" class="lazyload" src="{{ section.settings.skmobile | img_url: '10x' }}" data-src="{{ section.settings.skmobile | img_url: 'master' }}">
+        </div> 
+        <div class="" id="buttonskmob" ><a href="{{ section.settings.shop-kits}}" class="glam-btn">{{section.settings.button-text}}</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Starter Kit",
+   
+     "settings": [
+     {
+       "id": "shop-kits",
+       "type": "url",
+       "label": "Button link"
+     },
+
+     {
+      "type": "text",
+      "id": "sub-title",
+      "label": "Top subtitle",
+      "default": "See what the buzz is all about"
+     },
+ {
+      "type": "text",
+      "id": "section-title",
+      "label": "Big title",
+      "default": "GLAMNETIC STARTER KIT"
+     },
+{
+   "type": "richtext",
+   "id": "secondsubtitle",
+   "label": "Second Subtitle",
+   "default": "<p>Comes with a lash set of your choice and a<br>magnetic liquid eyeliner in cream or gel</p>"
+},
+{
+      "type": "text",
+      "id": "button-text",
+      "label": "Buton text",
+      "default": "Shop Kits"
+     },
+    {
+      "id": "skdesktop",
+      "type": "image_picker",
+      "label": "Desktop Banner  / 1920 wide"
+    },
+
+{
+      "id": "skmobile",
+      "type": "image_picker",
+      "label": "Mobile Banner / 960 wide"
+    }
+
+  ],
+  "presets": [
+    {
+      "name": "Starter Kit",
+      "category": "Homepage"
+    }
+  ] 
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %} 

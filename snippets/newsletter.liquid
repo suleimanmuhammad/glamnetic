@@ -1,0 +1,38 @@
+<div class="sm_footer_newsletter page-width">
+  <h3 class="sk center" id="xtralargeh3">DON’T <br> MISS OUT!</h3>
+  <h5 class="sk center" id="lowrcs">Sign up for email updates from Glamnetic</h5>
+  
+  <div class="form-vertical">
+    <form id="email_signup" class="klaviyo_gdpr_embed_L5EaXc" action="//manage.kmail-lists.com/subscriptions/subscribe" data-ajax-submit="//manage.kmail-lists.com/ajax/subscriptions/subscribe" method="GET" 
+          target="_blank" novalidate="novalidate">
+      <input type="hidden" name="g" value="L5EaXc">
+      <div class="input-group">
+        <div class="newsletter_section klaviyo_field_group">
+          <input type="email" value="" placeholder="yourname@youremailaddress" name="email" id="k_id_email" class="input-group__field site-footer__newsletter-input" autocorrect="off" autocapitalize="off">
+          <div class="input-group__btn input-group__field">
+            <button id="newssubbtn" type="submit" class="btn btn--narrow skbtn">
+              <span class="skbtn" id="subbutns">SUBSCRIBE</span>
+            </button>
+          </div>
+        </div>
+        <div class="klaviyo_messages">
+          <div class="success_message" style="display:none;"></div>
+          <div class="error_message" style="display:none;"></div>
+        </div>
+      </div>
+    </form>
+    <div id="email_subscribe"></div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+  KlaviyoSubscribe.attachToForms('#email_signup', {
+    hide_form_on_success: true,
+    success_message: "Thanks for subscribing!",
+    success: function ($form) {
+    $('.newsletter_section .input-group__btn').hide();
+  }
+  });
+</script>

@@ -1,0 +1,149 @@
+<div class="banner_section" data-section="routine-section">
+  <div class="img-container">
+    
+    <div class="desktop-img">
+      <div class="gifcont">
+        <div class="gifitem">
+          <h4 class="sk center" style="margin-bottom:10px;">Line</h4>
+          {% if section.settings.Linemp4 %}
+          	<div class="video-tag">
+              
+              <video src="{{ section.settings.Linemp4 }}" autoplay="true" loop="true" muted="" playsinline="" controlslist="nodownload"></video>
+
+              
+<!--               <video id="video" style="width:100%;" controls="" autoplay="true" loop="true" muted="" playsinline="" controlslist="nodownload">
+                <source src="{{ section.settings.Linemp4 }}" type="video/mp4">
+              </video> -->
+        
+          </div>
+          {% else %}
+          <img src="{{ section.settings.Line }}" />
+          {% endif %}
+        </div>
+        <div class="gifitem">
+           <h4 class="sk center" style="margin-bottom:10px;">Lash</h4>
+          {% if section.settings.Lushmp4 %}
+          	<div class="video-tag">
+              
+              <video src="{{ section.settings.Lushmp4 }}" autoplay="true" loop="true" muted="" playsinline="" controlslist="nodownload"></video>
+<!--               
+              <video id="video" style="width:100%;" controls="" autoplay="true" loop="true" muted="" playsinline="" controlslist="nodownload">
+                <source src="{{ section.settings.Lushmp4 }}" type="video/mp4">
+              </video> -->
+           
+          </div>
+          {% else %}
+          <img src="{{ section.settings.Lush }}" />
+          {% endif %}
+        </div>
+        <div class="gifitem">
+           <h4 class="sk center" style="margin-bottom:10px;">Lit</h4>
+          {% if section.settings.Litmp4 %}
+          	<div class="video-tag">
+              <video src="{{ section.settings.Litmp4 }}" autoplay="true" loop="true" muted="" playsinline="" controlslist="nodownload"></video>
+<!--               
+              <video id="video" style="width:100%;" controls="" autoplay="true" loop="true" muted="" playsinline="" controlslist="nodownload">
+                <source src="{{ section.settings.Litmp4 }}" type="video/mp4">
+              </video>
+               -->
+          </div>
+          {% else %}
+          <img src="{{ section.settings.Lit }}" />
+          {% endif %}
+        </div>
+      </div>
+      <img draggable="false" alt="{{ section.settings.routine-alt }}" src="{{ section.settings.routine_banner_desktop | img_url: '100x' }}" data-src="{{ section.settings.routine_banner_desktop | img_url: 'master' }}" class="lazyload" />
+    </div>
+    
+    
+    <div class="mobile-img">
+      <div class="gifcont">
+        <div class="gifitem">
+          {% if section.settings.mobgifmp4 %}
+          	<div class="video-tag">
+              <video src="{{ section.settings.mobgifmp4 }}" autoplay="true" loop="true" muted="" playsinline="" controlslist="nodownload"></video>
+              
+<!--               <video id="video" style="width:100%;" controls="" autoplay="true" loop="true" muted="" playsinline="" controlslist="nodownload">
+                <source src="{{ section.settings.mobgifmp4 }}" type="video/mp4">
+              </video> -->
+        
+          </div>
+          {% else %}
+          <img src="{{ section.settings.mobgif }}" />
+          {% endif %}
+        </div>
+      </div>
+      <img draggable="false" alt="{{ section.settings.routine-alt }}" src="{{ section.settings.routine_banner_mobile | img_url: '100x' }}" data-src="{{ section.settings.routine_banner_mobile | img_url: 'master' }}" class="lazyload"  />
+    </div>
+   
+  </div>
+  
+<!--   <div class="trynow mobile sksection ">
+  
+    <h3 class="sk center">TRY NOW FREE<br> FOR 7 DAYS!</h3>
+    <h5>CLICK "TRY FOR FREE" WHEN ADDING<br> TO CART ON ANY LASH KIT</h5>
+    <div class="skbtn">
+    <a href="https://glamnetic.com/collections/magnetic-eyelash-kit"> <button class="btn bg_white">TRY NOW</button></a>
+    </div>
+  </div> -->
+</div>
+
+{% schema %}
+  {
+    "name": "Routine Section",
+   
+     "settings": [
+     {
+      "type": "text",
+      "id": "routine-alt",
+      "label": "Alt text",
+      "default": "Glamnestic Easier Lash Routine"
+     },
+    {
+      "id": "routine_banner_desktop",
+      "type": "image_picker",
+      "label": "Desktop Banner 1 / 1920 x 902px"
+    },
+	{
+      "id": "Linemp4",
+      "type": "url",
+      "label": "Line mp4 Link"
+    },
+	{
+      "id": "Lushmp4",
+      "type": "url",
+      "label": "Lush mp4 Link"
+    },
+	{
+      "id": "Litmp4",
+      "type": "url",
+      "label": "Lit mp4 Link"
+    },
+
+
+      {
+      "id": "routine_banner_mobile",
+      "type": "image_picker",
+      "label": "Mobile Banner 1 /  1125 x 1204px"
+    },
+	{
+  "id": "mobgifmp4",
+  "type": "url",
+  "label": "Mobile mp4 Link"
+}
+    
+  ],
+  "presets": [
+    {
+      "name": "Routine video",
+      "category": "Homepage"
+    }
+  ] 
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %} 

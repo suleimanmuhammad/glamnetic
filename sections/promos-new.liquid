@@ -1,0 +1,81 @@
+{%- comment -%}
+  This is a required section for the Shopify Theme Store.
+  It is available when you add "Rich text" section on the Theme Editor.
+
+  Theme Store required settings
+  - Heading: title of the rich text section
+  - Text: description of the rich text section
+{%- endcomment -%}
+<section class="the-new-promo">
+
+    {% if section.blocks.size >=1 %}
+          <div class="promo__items">
+            {% for block in section.blocks %}
+              <div class="promo__item" style="font-size:{{ section.settings.promo_text_size | append: 'px' }}">
+                {{ block.settings.promo_text }}
+              </div>
+            {% endfor %}
+      </div>
+    {%- endif -%}
+  
+</section>
+
+
+ <script>
+    var myTimer = {{section.settings.promo_slide_timer | times: 1000}};
+  $('.promo__items').slick({
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  autoplay: true,
+    autoplaySpeed: myTimer,
+    arrows: false,
+});
+  
+  </script>
+
+{% schema %}
+  {
+    "name": "The promos",
+    "class": "promos-new",
+    "settings": [
+      {
+        "type": "range",
+        "id": "promo_slide_timer",
+        "min": 1,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "label": "Slide timer",
+        "default": 5
+      },
+{
+        "type": "range",
+        "id": "promo_text_size",
+        "min": 10,
+        "max": 30,
+        "step": 1,
+        "unit": "px",
+        "label": "Font size",
+        "default": 14
+      }
+    ],
+    "blocks": [
+      {
+        "type": "quote",
+        "name": "Promos",
+        "settings": [
+          {
+            "id": "promo_text",
+            "type": "text",
+            "label": "Promo text"
+          }
+        ]
+      }
+    ],
+
+    "presets": [{
+        "name": "Promos",
+        "category": "Header"
+    }]
+  }
+{% endschema %}

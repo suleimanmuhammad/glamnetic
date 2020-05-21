@@ -1,0 +1,148 @@
+<div class="simple-collection layout-{{ section.settings.product_count_range }}" data-section-id="{{ section.id }}" data-section-type="simple-collection-section">
+  <div class="wrapper">
+    <header{% if section.settings.center_heading %} class="centered"{% endif %}>
+      {% if section.settings.title != blank %}
+      <a href="{{ section.settings.button_link }}" class="subtitle__url">
+        <h3 class="featured__product_title">{{ section.settings.title | escape }}</h3>
+        </a>
+      {% endif %}
+      {% if section.settings.button_link != blank and section.settings.button_label != blank %}
+        
+          <h5 class="featured__product_subtitle">{{ section.settings.button_label | escape }}</h5>
+      
+      {% endif %}
+    </header>
+    <div class="product-container home-product-carousel">
+      {%- assign collection = collections[section.settings.collection] -%}
+      {%- assign product_limit = section.settings.product_count_range -%}
+      {% for product in collection.products  %}
+        {% include 'product-grid-new' %}
+      {% else %}
+        {% for i in (1..product_limit) %}
+          {% include 'placeholder-product-grid-item' %}
+        {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+//   $(document).on("click", ".the-cart-btn", function (event) {
+//         event.preventDefault();
+//       $add_to_cart = $(this);
+//       $ajax_loader = $add_to_cart.next();    
+//       $checkbox = $ajax_loader.next();
+      
+    
+//       $add_to_cart.hide();
+//       $ajax_loader.show();
+        
+
+//       jQuery.ajax({
+//       type: 'POST',
+//       url: '/cart/add.js',
+//       data: {
+//           quantity: 1,
+//           id: $(this).attr("prod-id")
+//       },
+//       dataType: 'json',           
+//       success: function(data) {
+//           $ajax_loader.hide();
+//           $checkbox.show();
+//         the_cart_preview();
+//       },
+//       error: function() {
+//           $ajax_loader.hide();
+//           $add_to_cart.show();
+//         alert('Oops! Something went wrong. Please try to add your product again. If this message persists, the item may not be available.');
+//       }
+      
+//       }); 
+    
+// });
+  
+  
+
+  
+  function the_cart_preview(){
+    
+    $('body').addClass('cartOpen');
+    
+    
+    
+//     $('.cart-preview').css('top', '52px');
+//       $('.cart-preview').fadeIn().delay(5000).fadeOut();
+//         $('.cart-preview').addClass('its-done');
+    
+//     $.getJSON("/cart.js", function (data) {
+//       var total_count = data.item_count;
+//       var total_amount = data.total_price;
+//       total_amount = total_amount/100;
+      
+//       $('#CartCount').html(total_count);
+//       $('.da-ct-cont .da-ct').html(total_count);
+      
+      
+      
+//       $('.total .money').html('$' + total_amount.toFixed(2));
+      
+
+      
+//             console.log(data);
+//       		console.log(total_count);
+//         });
+    
+    
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Simple collection",
+  "class": "simple-collection-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "center_heading",
+      "label": "Center heading",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "id": "collection",
+      "type": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "product_count_range",
+      "label": "Number of products",
+      "min": 2,
+      "max": 20,
+      "step": 2,
+      "default": 4
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

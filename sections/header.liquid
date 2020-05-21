@@ -1,0 +1,256 @@
+<div data-section-id="{{ section.id }}" data-section-type="header-section">
+  <div class="site-header-wrapper">
+    <header class="site-header {% if section.settings.minimal_padding == "minimal" %}minimal{% endif %} {% if section.settings.header_full_width %}full-width{% endif %}" data-scroll-lock="{{ section.settings.scroll_lock }}" role="banner">
+
+      <div class="wrapper">
+        <div class="logo-nav-contain layout-{{ section.settings.header_layout }}">
+          {% comment %}
+            Use the uploaded logo from theme settings if enabled.
+            Site name gets precedence with H1 tag on homepage, div on other pages.
+          {% endcomment %}
+          
+          
+          <div class="the-menu-toggle">
+            <div class="closenav"><svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-close" viewBox="0 0 32 32"><path fill="#444" d="M25.313 8.55l-1.862-1.862-7.45 7.45-7.45-7.45L6.689 8.55l7.45 7.45-7.45 7.45 1.862 1.862 7.45-7.45 7.45 7.45 1.862-1.862-7.45-7.45z"></path></svg></div>
+          <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-ui-menu" viewBox="0 0 448 512"><path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path></svg>
+            <span class="hm-brgr-txt">Shop</span>
+          </div>
+          
+          
+          <div class="logo-contain">
+            {% if template.name == 'index' %}
+              <h1 class="site-logo {% if section.settings.logo %}has-image{% endif %}">
+            {% else %}
+              <div class="site-logo {% if section.settings.logo %}has-image{% endif %}">
+            {% endif %}
+              {% if section.settings.logo %}
+                <a href="{{ routes.root_url }}" class="logo-image">
+                  {%- assign image = section.settings.logo -%}
+                  {%- assign image_default_width = section.settings.logo_max_width -%}
+                  {%- assign image_2x_width = image_default_width | times: 2 -%}
+                  {%- assign image_3x_width = image_default_width | times: 3 -%}
+                  {%- assign image_default = image_default_width | append: 'x' -%}
+                  {%- capture widths -%}{{ image_default_width }},{{ image_2x_width }},{{ image_3x_width }}{%- endcapture -%}
+                  {% assign image_widths = widths %}
+                  {% include 'theme-rias' %}
+<!--                   <img id="{{ img_id }}" class="lazyload"
+                    src="{{ image | img_url: image_default }}"
+                    data-src="{{ image_url_pattern }}"
+                    data-widths="[{{ image_widths }}]"
+                    data-aspectratio="{{ image.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ image.alt | escape | default: shop.name }}"> -->
+                  
+                  <img src="https://cdn.shopify.com/s/files/1/0139/2302/4944/files/logo_w_11870c22-840f-40fb-b1e3-e94f1bb26682.svg?v=1584619983" alt="{{ image.alt | escape | default: shop.name }}" />
+                </a>
+              {% else %}
+                <a href="{{ routes.root_url }}">{{ shop.name }}</a>
+              {% endif %}
+            {% if template.name == 'index' %}
+              </h1>
+            {% else %}
+              </div>
+            {% endif %}
+          </div>
+
+          <nav class="nav-bar" role="navigation">
+            {% include 'site-nav' %}
+    		{% include 'header-util' %}
+          </nav>
+        </div>
+
+      </div>
+    </header>
+  </div>
+</div>
+
+<nav id="menu" class="panel" role="navigation">
+  <div class="search">
+    {% include 'search-bar' %}
+  </div>
+
+  {% include 'site-nav' %}
+
+  <div class="account">
+    {% if shop.customer_accounts_enabled %}
+      {% include 'accounts-nav' %}
+    {% endif %}
+  </div>
+</nav>
+
+<style>
+  {% if section.settings.top_bar_full_width %}
+  header.util .wrapper {
+    padding: 0;
+    max-width: 100%;
+  }
+  header.util .wrapper .left-wrapper,
+  header.util .wrapper .right-wrapper {
+    margin: 6px 20px;
+  }
+  {% endif %}
+  .site-logo.has-image {
+    max-width: {{ section.settings.logo_max_width }}px;
+  }
+  header.site-header .layout-horizontal .logo-contain {
+    flex-basis: {{ section.settings.logo_max_width }}px;
+  }
+  {%- if section.settings.logo -%}
+    {%- assign image = section.settings.logo -%}
+    {%- assign padding = 1 | divided_by: image.aspect_ratio | times: 100 | append: '%' -%}
+    header.site-header h1.site-logo.has-image a:before,
+    header.site-header .site-logo.has-image.h1 a:before,
+    header.site-header div.has-image.site-logo a:before {
+      padding-bottom: {{ padding }};
+    }
+  {%- endif -%}
+</style>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": {{ shop.name | json }},
+  {% if section.settings.logo %}
+    {%- assign image_size = section.settings.logo.width | append:'x' -%}
+    "logo": {{ section.settings.logo | img_url: image_size | prepend: "https:" | json }},
+  {% endif %}
+  {%- capture same_as -%}
+    {%- assign social_links = 'Twitter,Facebook,Instagram,Pinterest,Tumblr,YouTube,Snapchat,Spotify,Google Plus,Medium,LinkedIn,Amazon' | split: ',' -%}
+    {%- for link in social_links -%}
+      {%- assign setting_val = 'social_' | append: link | append: '_link' | downcase -%}
+      {%- if settings[setting_val] != blank -%}{{ settings[setting_val] | json }},{%- endif -%}
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- assign same_as_size = same_as | size | minus: 1 -%}
+  "sameAs": [ {{ same_as | slice: 0, same_as_size }} ],
+  "url": {{ shop.url | append: page.url | json }}
+}
+</script>
+
+{% if request.page_type == 'index' %}
+  {% assign potential_action_target = shop.url | append: routes.search_url | append: "?q={search_term_string}" %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": {{ shop.name | json }},
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {{ potential_action_target | json }},
+        "query-input": "required name=search_term_string"
+      },
+      "url": {{ shop.url | append: page.url | json }}
+    }
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "header",
+  "settings": [
+    {
+      "type": "radio",
+      "id": "header_layout",
+      "label": "Logo placement",
+      "options": [
+        { "value": "horizontal", "label": "Left aligned" },
+        { "value": "vertical", "label": "Centered" }
+      ],
+      "default": "vertical"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "min": 100,
+      "max": 1180,
+      "step": 20,
+      "unit": "px",
+      "label": "Logo maximum width",
+      "default": 280
+    },
+    {
+      "type": "link_list",
+      "id": "main_linklist",
+      "label": "Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "mega_menu",
+      "label": "Enable mega menu style",
+      "default": false,
+      "info": "Display nested menu links in columns"
+    },
+    {
+      "type": "select",
+      "id": "scroll_lock",
+      "label": "Lock while scrolling",
+      "options": [
+        { "value": "util", "label": "Top bar" },
+        { "value": "header", "label": "Header" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "util"
+    },
+    {
+      "type": "radio",
+      "id": "minimal_padding",
+      "label": "Header size",
+      "options": [
+        { "value": "minimal", "label": "Minimal" },
+        { "value": "normal", "label": "Normal" }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "checkbox",
+      "id": "top_bar_full_width",
+      "label": "Expand top bar full width",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "header_full_width",
+      "label": "Expand header full width",
+      "default": false
+    }
+  ],
+
+"blocks": [
+{
+"type": "select",
+"name": "Submenu Item",
+"settings": [
+{
+"type": "text",
+"id": "submenuitem",
+"label": "Subcolection Name",
+"default": "Item Name"
+},
+{
+"id":"subcatimg",
+"type": "image_picker",
+"label": "Recycle Class Icon",
+"info": "transparent png at least 100px in height."
+},
+{
+"id": "catlink",
+"type": "url",
+"label": "Collection URL",
+"info": "Featured URL, can begin with https:// or choose from the options."
+}
+]
+}
+]
+}
+{% endschema %}

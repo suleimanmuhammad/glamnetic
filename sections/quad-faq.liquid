@@ -1,0 +1,63 @@
+<div class="accordion" id="accordionExample">
+  {% for block in section.blocks %}
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse-{{forloop.index}}" aria-controls="collapseOne">
+          {{ block.settings.faq_question }}
+        </button>
+        <i class="fa fa-angle-down" aria-hidden="true"></i>
+      </h2>
+    </div>
+
+    <div id="collapse-{{forloop.index}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <div class="card-body">
+        {{ block.settings.faq_ans }}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "The FAQ",
+    "class": "the-faq",
+    "settings": [
+      {
+        "type": "text",
+        "id": "faq_title",
+        "label": "Title"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "text",
+        "name": "faq",
+        "settings": [
+          {
+            "type": "text",
+            "id": "faq_question",
+            "label": "Question"
+          },
+{
+   "type": "richtext",
+   "id": "faq_ans",
+   "label": "Text"
+}
+        ]
+      }
+    ],
+
+    "presets": [{
+        "name": "FAQ",
+        "category": "Custom module"
+    }]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

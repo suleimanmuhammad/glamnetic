@@ -1,0 +1,75 @@
+<header class="util">
+  <div class="wrapper">
+
+    <div class="search-wrapper">
+      {% include 'search-bar' %}
+    </div>
+
+    <div class="left-wrapper">
+      <ul class="text-links">
+        <li class="mobile-menu">
+          <a href="#menu" class="toggle-menu menu-link">
+            <span class="icon-text">
+              <span class="icon icon-menu" aria-hidden="true">{% include 'icon-ui-menu' %}</span>
+              <span class="text" data-close-text="{{ 'layout.drawers.close_menu' | t }}">{{ 'layout.navigation.menu' | t }}</span>
+            </span>
+          </a>
+        </li>
+        <li class="the-search-li">
+          <a href="#" class="search">
+            <span class="icon-text">
+              <span class="icon icon-search" aria-hidden="true">
+              <img src="//cdn.shopify.com/s/files/1/0139/2302/4944/t/44/assets/search-icon.svg?v=4002196146123672620" />
+              </span>
+<!--               <span class="text">{{ 'general.search.submit' | t }}</span> -->
+            </span>
+          </a>
+        </li>
+      </ul>
+      {% comment %}
+        Include currency picker
+     
+      {% if settings.show_multiple_currencies or shop.enabled_currencies.size > 1 %}
+        {% include 'currency-picker' %}
+      {% endif %}
+      
+       {% endcomment %}
+    </div>
+
+    <div class="right-wrapper">
+      {% comment %}
+        If customer accounts are enabled, provide login and create account links
+      {% endcomment %}
+      {% if shop.customer_accounts_enabled %}
+        {% include 'accounts-nav' %}
+      {% endif %}
+      {% comment %}
+        Show number of items in the cart and total cost in the /cart link
+      {% endcomment %}
+      
+     <a href="#" class="search">
+            <span class="icon-text">
+              <span class="icon icon-search" aria-hidden="true">
+              <img src="//cdn.shopify.com/s/files/1/0139/2302/4944/t/44/assets/search-icon.svg?v=4002196146123672620">
+              </span>
+<!--               <span class="text">Search</span> -->
+            </span>
+          </a>
+      <a href="{{ routes.cart_url }}" id="CartButton">
+<!--         <span class="icon-fallback-text">
+          {%- assign cart_icon = 'icon-ui-' | append: settings.cart_icon -%}
+          <span class="icon icon-cart" aria-hidden="true">{% include cart_icon %}</span>
+        </span> -->
+        <img src="//cdn.shopify.com/s/files/1/0139/2302/4944/t/44/assets/shopping-bag.svg?v=4904223497936955381" />
+        <span id="CartCount">{{ cart.item_count }}</span>
+<!--         <span id="CartCost" class="money">{% unless cart.item_count == 0 %}{{ cart.total_price | money }}{% endunless %}</span> -->
+
+      </a>
+      {% if settings.ajax_cart_enable %}
+        {% include 'cart-preview' %}
+      {% endif %}
+    </div>
+  </div>
+</header>
+
+

@@ -1,0 +1,16 @@
+<!-- /snippets/accounts-nav.liquid -->
+<ul class="text-links account__link">
+  {% if customer %}
+    <li>
+      <a href="{{ routes.account_url }}">
+      <img src="//cdn.shopify.com/s/files/1/0139/2302/4944/t/44/assets/user-icon.svg?v=5066069728687487228" />
+      </a>
+    </li>
+  {% else %}
+    <li>
+      <a href="/account/login">
+      <img src="//cdn.shopify.com/s/files/1/0139/2302/4944/t/44/assets/user-icon.svg?v=5066069728687487228" />
+      </a>
+    </li>
+  {% endif %}
+</ul>

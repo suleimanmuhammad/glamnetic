@@ -1,0 +1,35 @@
+<div class="popupOverlay product_popup">
+  <div class="popupBox">
+    {%- assign product = all_products[settings.select_product] -%}
+    <a class="cls_popups close_image">
+      <img src="{{ 'close.png' | asset_url }}" alt="Close Image">
+    </a>
+    <div class="top_header_text">
+      	<h2>Wait! You need Magnetic Eyeliner to use our lashes…</h2>	
+    </div>
+    <div class="popup_image">
+      <img src="{{ product.featured_image.src | img_url: 'master' }}" alt="{{ product.title }}" />  
+    </div>
+    <div class="popup_details">
+      <div class="pro_title">
+        <h2>{{ product.title }}</h2>
+        <p>{{ product.price | money }}</p>
+      </div>
+      <div class="product_review">
+        <div data-oke-reviews-product-listing-rating>{{ product.metafields.okendo.ProductListingSnippet }}</div>
+      </div>
+      <div class="product_dec">
+        {{ product.description }}
+      </div>
+      {% form 'product', product %}
+      <input type="hidden" value="{{ product.id }}"  id="pro_id_hidden"/>
+      <input type="hidden" name="id" class="sm" value="{{ product.variants.first.id }}" />
+      <input type="hidden" min="1" type="number"  name="quantity" value="1"/>
+      <input type="submit" value="Add to cart" class="btn skbtn productpopup" />
+      {% endform %}
+      <div class="bottom_long_text">
+        <a class="cls_popups" >No thank you I don’t need it</a>
+      </div>
+    </div>
+  </div>
+</div>

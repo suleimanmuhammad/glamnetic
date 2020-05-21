@@ -1,0 +1,376 @@
+<!-- <style>
+    @media only screen and (min-width: 749px){
+    .cart-prog-bar-container{
+      display: none !important;
+      }  
+  }
+  
+  @media only screen and (max-width: 749px){
+  .cart-prog-bar-container{
+    overflow: hidden;
+        width: 80%;
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 10px;
+  }
+  .header_bottom_part{
+    background: none !important;
+    color: black !important;
+  }
+  .cart-progress-bar{
+    width: {% if cart.total_price < 2989 %}{{cart.total_price | divided_by: 29.89 | floor}}%{% else %}100%{% endif %};
+    text-align: right;
+    background: #cd141f;
+        height: 100%;
+    padding-left: 5px;
+  }
+  .cart-progress-bar span{
+        color: white;
+  }
+  
+  .cart-prog-bar-container div{
+        display: flex;
+    align-items: center;
+  }
+  }
+</style> -->
+
+<div class="quick-items">
+
+  <div class="header_bottom_part text-center" style="font-size: 12px">
+    {% if cart.total_price < 2989 %}
+    You're <b> ${{ 2989 | minus: cart.total_price | money_without_currency  }} </b> Away From Free Shipping! (US/CAN)
+    {% else %}
+   	CONGRATS! YOU GOT FREE SHIPPING! (US/CAN) 
+    {% endif %}
+  </div>
+<!--   
+    <div  class="cart-prog-bar-container"> <div style="color: white;" class="cart-progress-bar">
+        {% if cart.total_price < 2989 %}
+    {{cart.total_price | divided_by: 29.89 | floor}}%</div> <div style="padding-right: 5px">{{298900 | divided_by: 100 | money}}</div>
+    {% else %}
+    <div style="color: white;width: 100%;
+    display: flex;
+    justify-content: center;">QUALIFIED!</div>
+    {% endif %}
+    </div>
+ -->
+  <div class="mian_cart_item_list" > 
+    <div class="mini_cart">
+      {% assign pro_id_list = '' %}
+      {% assign item_first_for_tag = '' %}
+      {% assign pro_tags_handle_list = '' %}
+      <!-- START TRYNOW CODE -->
+      <!-- Variable that will contain the total price of trynow items -->
+      {% assign try_now_total_price = 0 %}
+      <!-- Variable that will contain the number of trynow items -->
+      {% assign try_now_items = 0 %}
+      {% for item in cart.items %}
+      	<!-- Variable that will be used to know if item is try now or not. -->
+      	{% assign is_item_try_now = false %}
+        {% for property in item.properties %}
+          {% if property.first == "TryNow" and property.last == "true" %}
+      		<!-- START TRYNOW CODE -->
+            <!-- If item trynow, set variable, add line price and add item quantity -->
+            {% assign try_now_total_price = try_now_total_price | plus: item.line_price %}
+            {% assign is_item_try_now = true %}
+      		{% assign try_now_items = try_now_items | plus: item.quantity %}
+            {% break %}
+          {% endif %}
+        {% endfor%}
+
+      {% if forloop.index == 1  %}
+      {% assign item_first_for_tag = item.product.handle %}
+      {% assign pro_id_list = pro_0id_list | append: item.product_id %}
+      {% else %}
+      {% assign pro_id_list = pro_id_list | append: ',' | append: item.product_id %}
+      {% endif %}
+
+      <div class="quick-cart-item">
+        <div class="main-wraper-product">
+          <div class="product_image">
+            <a href="{{ item.product.url }}" title="{{ item.product.title | escape }}">
+              <img src="{{ item | img_url: 'master' }}"  alt="{{ item.alt | escape }}" />
+            </a>
+          </div>
+          <span class="m-product-title">
+            <span class="side-main-title">
+              <a href="{{ item.product.url }}">{{ item.product.title | remove: ' / Default' | remove: 'Default'  }}</a>
+              <dl class="variation">
+                {% for option_title in item.product.options %}
+                {% unless item.variant.options[forloop.index0] contains 'Default' %}
+                {% comment %}<dt class="variation-Color">{{ option_title }}:</dt>{% endcomment %}
+                <dd class="variation-Color">{{item.variant.options[forloop.index0] }}</dd>
+                {% endunless%}
+                {% endfor %}
+              </dl>
+              <!-- START TRYNOW CODE -->
+              <!-- If trynow, show custom text -->
+              {% if is_item_try_now == true %}
+                  <code>({{item.line_price | money_without_trailing_zeros}} if kept) </code>
+              {% endif %}
+            </span>
+			<!-- If trynow, do style adjustment -->
+            {% if is_item_try_now == true %}
+            <div class="qtyAdjust" style="bottom:-20px !important">
+            {% else %}
+            <div class="qtyAdjust">
+            {% endif %}
+            <br>
+              <!-- If item trynow, add custom class and disable input -->
+              <span data-line="{{forloop.index}}" class="adjust {% if is_item_try_now == true %}trynow-adjust{% endif %} minus">–</span>
+                  <input {% if is_item_try_now == true %}disabled{% endif %} type="text" size="2" name="updates[]" data-id="{{ item.id }}" id="updates_{{ item.id }}" value="{{ item.quantity }}" onfocus="this.select();" class="tc item-quantity" />
+              <span data-line="{{forloop.index}}" class="adjust {% if is_item_try_now == true %}trynow-adjust{% endif %} plus">+</span>
+            </div>
+          </span>
+          <span class="last-price">
+            
+            <span class="shopify-Price-amount">
+            {% if is_item_try_now == true %}
+               {{ 0 | money }}
+            {% else %}
+              {{ item.price | money_without_trailing_zeros  }}
+            {% endif %}
+            </span>
+
+          </span>
+          	<a class="remove_item" title="Remove item" href="#" data-id="{{ item.variant_id }}" data-line="{{forloop.index}}">Remove</a>
+        </div>
+      </div>
+      {% endfor %}
+
+        
+      {% if cart.item_count != 0 %}
+      {% if is_item_try_now != true %}
+      
+      <div class="giftcode">
+        <div class="loading-overlay" style="display: none;">
+          <img src="{{ 'preloading-white.gif' | asset_url }}" alt="Loader Image">
+        </div>
+        <form class="block add" action="/discount" method="get" style="display: flex;">
+          <input type="text" name="code" class="code" placeholder="Gift card or discount code">
+          <input type="submit" value="Apply">
+        </form>
+        <div class="block view" style="display: none;">
+          <div class="sucess_discount">
+            <span class="title">Discount code: </span>
+            <div class="code-wrapper">
+              <div class="code">test</div>
+              <span class="lnr lnr-cross"><img src="{{ 'new-close.png' | asset_url }}" alt="Close Icon"></span>
+            </div>
+          </div>
+          <div class="disclaimer">*savings shown in checkout</div>
+        </div>
+
+        <script>
+          $(function(){
+            var overlay = $('.giftcode .loading-overlay');
+            function displayDiscount() {
+              var code = Cookies.get('discount_code');
+              $('.giftcode .block').hide();
+              if (code && code!='NODISCOUNT') {
+                $('.giftcode .view').show();
+                $('.giftcode .view .code').html(code);
+              } else {
+                $('.giftcode .add').show();
+              }
+              overlay.hide();
+            }
+            function setDiscount(code) {
+              overlay.show();
+              $.get('/discount/'+code).always(displayDiscount);
+            }
+            $('.giftcode .lnr-cross').click(function(){setDiscount('NODISCOUNT')})
+            $('.giftcode form').on('submit', function(event){
+              event.preventDefault();
+              var $code = $(this).find('.code');
+              var code = $code.val();
+              $code.val('');
+              setDiscount(code);
+              return false;
+            });
+            displayDiscount();
+          });
+        </script>
+      </div>
+
+      {% endif %}
+
+      <div class="cartTotal text-center">
+        <!-- Substract trynow price from cart total price -->
+        <span>Subtotal:</span> <span class="cart_total_price">{{ cart.total_price | minus: try_now_total_price | money_with_currency }}</span>
+      </div>
+        
+      {% comment %} <!-- Insert QuadPay Widget --> {% endcomment %}
+      <div style="margin: 0 0 10px 0; min-height:20px;">
+        <quadpay-widget size="80%" alignment="center" amount={{ cart.total_price | divided_by: 100.00 }} ></quadpay-widget>
+      </div>
+      <div class="topcart-btn">
+      <form action="/checkout" method="post" novalidate>
+          {% if try_now_total_price > 0 %}
+        	<!-- START TRYNOW CODE -->	
+        	<!-- Retrieve cart token and pass as parameter -->
+        	{%- assign cartJson = cart | json -%}
+        	{%- assign cartToken = cartJson | split:'token":"' | last | split:'"' | first -%}
+        	{%- assign checkoutURL = 'https://glamnetic.trynowcheckout.com/customer-information?shop=glamnetic.com&token=' | append: cartToken -%}
+        	<!-- If more than 1 tbb item in cart, disable button and show error message -->
+            <a href="{{ checkoutURL }}" class="checkout-link btn skbtn try-now {% if try_now_items > 1 %}disable-trynow{% endif %}">Checkout</a>
+            <h6 class="trynow-wont-charge-text">A hold will be placed on your card, but you will not be charged.</h6>
+        	{% if try_now_items > 1 %}
+        		<h6 class='message' style='color:#ff0000; text-align:center;'>You can only have 1 Try For Free item in your cart.</h6>
+        	{% endif %}
+			
+          {% else %}
+            <button type="submit" name="checkout" class="checkout-link btn skbtn" value="Checkout">Checkout</button>
+
+            {% if additional_checkout_buttons %}
+            <div class="additional-checkout-buttons">
+              {{ content_for_additional_checkout_buttons }}
+            </div>
+            {% endif %}
+
+          {% endif %}
+          
+          <script>
+            if (window.Shopify && Shopify.StorefrontExpressButtons) {
+              Shopify.StorefrontExpressButtons.initialize();
+            }
+          </script>
+
+        </form>
+      </div>
+      {% else %}
+      <p class="emptyCart text-center">{% include 'empty-bag-icon' %} No Products in the cart.</p>
+      {% endif %}
+    </div>  
+
+    {% if cart.item_count == 0 %}
+    <div class="freeItems">
+      <h2>These products might interest you ♥️</h2>
+      
+      {% assign col_handle_by_pro = '' %}
+      {% assign array_pro_id = '' %}
+      {% for collection in product.collections %}
+      {% if collection.handle == 'mink-magnetic-lashes' %}
+      {% assign col_handle_by_pro = collection.handle %}
+      {% endif %}
+      {% endfor %}
+
+      {% for product in collections['mink-magnetic-lashes'].products %}
+      {% if forloop.index == 1  %}
+      {% assign array_pro_id = array_pro_id | append : product.id %}
+      {% else %}
+      {% assign array_pro_id = array_pro_id | append : ',' | append : product.id %}
+      {% endif %}
+      {% endfor %}
+      
+      <div class="freeItemsCol" data-cid="mink-magnetic-lashes" data-client="mink-magnetic-lashes" data-array="{{ array_pro_id }}" data-popproid="3825036361776">
+
+        {% assign count_cart_product = 0 %}
+        {% for product in collections.upsell-product.products limit:4 %}
+        {% if pro_id_list contains product.id %}
+        {% continue %}
+        {% else %}
+        {% comment %}
+        {% if count_cart_product > 2 %}
+        {% break %}
+        {% else %}
+        {% assign count_cart_product = count_cart_product | plus : 1 %}
+        {% endif %}
+        {% endcomment %}
+        {% endif %}
+
+        <div class="freeItem">
+          <form id="add-item-form" action="/cart/add" method="post" class="variants clearfix">
+            <div class="freeImg">
+              {% assign img_url = product.featured_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+              <img class="lazyload"
+                   src="{{ product.featured_image | img_url: '300x' }}"
+                   data-src="{{ img_url }}"
+                   data-widths="[540, 720, 900, 1080, 1296, 1512, 1728, 1944, 2048]"
+                   data-aspectratio="{{ product.featured_image.aspect_ratio }}"
+                   data-sizes="auto"
+                   data-parent-fit="contain"
+                   alt="{{ product.title }}">
+              
+            </div>
+            <div class="freeDec">
+              <div class="free_product">
+                <a href="{{ product.url }}">{{ product.title }}</a>	
+                <p>ONLY {{ product.price | money_without_trailing_zeros  }}</p>
+              </div>
+              <div class="free_button">
+                <input type="hidden" value="{{ product.id }}"  id="pro_id_hidden"/>
+                <input type="submit" id="add-to-cart" class="btn skbtn buttonAddtoCart" name="add" value="Add" />
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}" /> 
+              </div>
+            </div>
+          </form>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% else %}
+
+    {% assign f_p = all_products[item_first_for_tag] %}
+    {% assign pro = 0 %}
+    <div class="freeItems">
+      <h2> You Might Also Love ♥️ </h2>
+      <div class="freeItemsCol">
+
+        {% assign t_tags = 0 %}
+        {% for f_tag in f_p.tags %}
+        {% if f_tag contains "@" %}
+        {% assign final_insert_tag = f_tag | remove_first: "@" %}
+        {% if t_tags == 0 %}
+        {% assign pro_tags_handle_list = pro_tags_handle_list | append: final_insert_tag %}
+        {% elsif t_tags > 0 %}
+        {% assign pro_tags_handle_list = pro_tags_handle_list | append: ',' | append: final_insert_tag %}
+        {% endif %}
+        {% endif %}
+        {% assign t_tags = t_tags | plus: 1 %}
+        {% endfor %}
+        {% assign pro_tags_handle_list = pro_tags_handle_list | split: "," %}
+        {% for pro_tag_wise in pro_tags_handle_list %}
+        {% assign product = all_products[pro_tag_wise] %}
+        {% assign tag_pro_id = product.id %}
+        {% if pro_id_list contains tag_pro_id %}
+        {% continue %}
+        {% endif %}  
+
+        <div class="freeItem">
+          <form id="add-item-form" action="/cart/add" method="post" class="variants clearfix">
+            <div class="freeImg">
+              <img src="{{ product.featured_image | img_url: '90x' }}" alt="{{ product.title }}" />
+            </div>
+            <div class="freeDec">
+              <div class="free_product">
+                <a href="{{ product.url }}">{{ product.title }}</a>	
+                <p>ONLY {{ product.price | money_without_trailing_zeros  }}</p>
+              </div>
+              <div class="free_button">
+                <input type="submit" id="add-to-cart" class="btn skbtn buttonAddtoCart" name="add" value="Add" />
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}" /> 
+              </div>
+            </div>
+          </form>
+        </div>
+        {% assign pro = 1 %}
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  {% if pro < 1 %}
+  <style>
+    .freeItems h2{
+      display: none; 
+    }
+  </style>
+  {% endif %}
+</div>

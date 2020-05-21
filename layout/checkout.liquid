@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+    <meta name="referrer" content="origin">
+
+    <title>{{ page_title }}</title>
+
+    {{ content_for_header }}
+
+    {{ checkout_stylesheets }}
+    {{ checkout_scripts }}
+<!--     IMPORTANT!!! REMOVE CHECKOUT DISCOUNTS -->
+<!--         <style>
+      .giftcode, .order-summary__section--discount, .section--reductions{
+  display: none;
+}
+    </style> -->
+<!--     END -->
+    <style type="text/css">
+     .input-checkbox:checked, .input-radio:checked {
+    border: none;
+    -webkit-box-shadow: 0 0 0 10px #e83e8c inset;
+    box-shadow: 0 0 0 10px #e83e8c inset;
+}
+      a, .link{
+      color:#e83e8c !important;}
+        
+.section__content.section__content__attentive {
+border-radius: 4px;
+background-color: #fafafa;
+border: solid 1px #e6e6e6;
+padding: 12px;
+
+}
+.section__content.section__content__attentive .input-checkbox {
+background: #fff;
+}
+.section__footer__attentive {
+font-size: 9px;
+font-weight: normal;
+font-style: normal;
+font-stretch: normal;
+line-height: 1.25;
+letter-spacing: normal;
+text-align: left;
+color: #808080;
+padding-top: 4px;
+}
+.section__footer__attentive a {
+color: #808080;
+font-weight: bold;
+}
+.checkbox__label.checkbox__label__attentive {
+cursor: auto;
+}
+.checkbox__label__attentive__header {
+font-size: 14px;
+font-weight: bold;
+font-style: normal;
+font-stretch: normal;
+line-height: 1;
+letter-spacing: normal;
+text-align: left;
+color: #333333;
+}
+.checkbox__label__attentive__subheader {
+font-size: 12px;
+font-weight: normal;
+font-style: normal;
+font-stretch: normal;
+line-height: 1.17;
+letter-spacing: normal;
+text-align: left;
+color: #737373;
+padding-top: 4px;
+}
+
+.checkbox-wrapper {
+display: -webkit-box;
+display: -ms-flexbox;
+display: -webkit-flex;
+display: flex;
+align-items: baseline;
+}
+</style>
+    <script src="https://cdn.attn.tv/glamnetic/checkout/checkout.js"></script>
+
+<!-- Jumbleberry Checkout Pixel -->    
+<script type="text/javascript">
+    ;!function(j,u,m,b,l,e){var i="jumbleberry",n="3.2.0",o=function(){o.v==n&&o.e?o.e.apply(o,arguments):o.q.push(arguments)},
+    a=encodeURIComponent,r=decodeURIComponent,d=j.location;(o.push=o).l=!1,o.q=[],o.v=n,o.duid=function(i){var n=i&&u.cookie.match(RegExp(
+    r("%5Cb")+i.substr(0,21)+"id=([^;]+)"));return n?r(n[1].split(".")[0]):""},o.g=function(i,n){var t=RegExp("^[^#]*[?&]"+i+"=([^&#]+)"
+    ).exec(n||d.href);return!!t&&r(t[1].replace(/\+/g," "))},o.s=function(i){for(var n=Math.round((new Date).getTime()/1e3),
+    t=d.hostname.split("."),r=t.length-1;0<r--&&/^(([a-z0-9]{4}-?){8}|[0-9]+)$/i.test(i)&&i!=o.duid(o.p);)u.cookie=o.p.substr(0,21
+    )+"id="+a(i)+"."+n+".0."+n+".; path=/; max-age=63072000; domain=."+t.slice(r,t.length).join(".")},o.i=function(i,n,t){if("init"==i
+    )return[o.u=o.duid(o.p=n),o.s(o.h=t||o.u)];var r=u.createElement("iframe");t=t||{},r.src=o.d+o.p+"?hid="+a(o.h)+"&uid="+a(o.u
+    )+"&event="+a(n||"")+"&transid="+a(t.transaction_id||"")+"&oi="+a(t.order_index||"")+"&ctx="+a(JSON.stringify(t)),r.height=r.width=0,
+    r.style="display:none;visibility:hidden",r.sandbox="allow-forms allow-same-origin allow-scripts",r.referrerPolicy="unsafe-url",(
+    u.body||u.head).appendChild(r)},o.m=o.e=function(){if(!j._RNGSeed&&o.i.apply(o,arguments)){var i=u.createElement(m),
+    n=u.getElementsByTagName(m)[0];i.src=o.d+o.p+"?hid="+a(o.h)+"&uid="+a(o.u)+"&v="+o.v,i.async=!0,o.e=!1,o.q.unshift(arguments),
+    j.addEventListener("beforeunload",i.onerror=function(){o.e=o.i;for(var i=0;i<o.q.length;++i)o.apply(o,o.q[i]);o.q=[]}),
+    n.parentNode.insertBefore(i,n)}},j[i]=j[i]||o,j[i].d=b}(window,document,"script","https://www.dead-unit-wake.com/");
+
+      jumbleberry("init", "UHv7kdRRZMVCODG1_KzX76c8CGPBxMQ-bKIWh1t4FmNljsDqgJUzcqaAOwv0H_2AuZmrkGNZHAN3aXCRxAAeRQ~~");
+      if (Shopify.Checkout.step === "contact_information") {
+	  	jumbleberry("track", "InitiateCheckout");
+      } else if (jumbleberry.g("step") === "payment_method" || Shopify.Checkout.step === "payment_method") {
+        jumbleberry("track", "AddPaymentInfo");
+      }
+</script>    
+
+  <!-- Rad Intelligence Pixel -->
+  <script type="text/javascript" src="https://id.radinfluencer.com/uid.php?SITEID=1022&LICENSE=C944F89EE925FA5C3A4D848E0EE55CA2DB0EB968509627CCA82E61CE6BD1C1F3"></script>
+    
+    {% include "loyaltylion" %}
+<script>lion.configure({ checkout: true })</script>
+</head>
+  <body>
+    {{ skip_to_content_link }}
+
+    <div style="padding-top:0;display:block;" class="banner" data-header>
+<!--       <div class="wrap">
+        {{ content_for_logo }}
+      </div> -->
+      
+      <style>
+        @media only screen and (max-width: 1000px){
+                  #checkout-banner_desktop{
+          display: none;
+        }
+        }
+        @media only screen and (min-width: 1000px){
+          #checkout-banner_mobile{
+			display: none;
+          }
+        }
+
+      </style>
+      <img id="checkout-banner_desktop" src={{'CHECKOUTBANNER.jpg' | asset_url}}>
+      <img id="checkout-banner_mobile" src={{'checkout_banner_mobile.jpg' | asset_url}}>
+    </div>
+
+    {{ order_summary_toggle }}
+
+    <div class="content" data-content>
+      <div class="wrap">
+        <div class="main" role="main">
+          <div class="main__header">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            {{ alternative_payment_methods }}
+          </div>
+          <div class="main__content">
+            {{ content_for_layout }}
+            
+            <div id="attentiveOptIn" class="fieldset-description"
+data-buyer-accepts-marketing-attentive="">
+<div class="section__content section__content__attentive">
+<div class="checkbox-wrapper">
+<div class="checkbox__input">
+<input name="attributes[buyer_accepts_marketing_attentive]" type="hidden"
+value="0">
+<input class="input-checkbox" data-backup="buyer_accepts_marketing"
+type="checkbox" value="1" name="attributes[buyer_accepts_marketing_attentive]"
+id="checkout_buyer_accepts_marketing_attentive">
+</div>
+<div class="checkbox__label checkbox__label__attentive">
+<div class="checkbox__label__attentive__header">Want VIP status? And
+10% off?</div>
+<div class="checkbox__label__attentive__subheader">Sign up to get texts
+from Glamnetic about new products, exclusive offers and more!</div>
+<div class="section__footer__attentive">By signing up via text, you agree to
+receive recurring automated marketing messages from Glamnetic at the cell number
+provided when signing up. Consent is not a condition of any purchase. Msg &amp; data
+rates may apply. View <a href="http://attn.tv/glamnetic/terms.html" target="_blank"
+rel="noopener noreferrer">Terms</a> &amp; <a
+href="https://glamnetic.com/pages/privacy-policy" target="_blank" rel="noopener
+noreferrer">Privacy</a>.</div>
+</div>
+</div>
+</div>
+</div>
+          </div>
+          <div class="main__footer">
+            {{ content_for_footer }}
+          </div>
+        </div>
+        <div class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+            {{ content_for_order_summary }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {{ tracking_code }}
+    
+<!--     COUNTDOWN -->
+    <script>
+      function createCookie(a, b, c) {
+  if (c) {
+    var d = new Date();
+    d.setTime(d.getTime() + c * 60 * 1e3);
+    var e = "; expires=" + d.toUTCString();
+  } else var e = "";
+  document.cookie = a + "=" + b + e + "; path=/";
+}
+function readCookie(a) {
+  for (
+    var b = a + "=", c = document.cookie.split(";"), d = 0;
+    d < c.length;
+    d++
+  ) {
+    for (var e = c[d]; " " == e.charAt(0); ) e = e.substring(1, e.length);
+    if (0 == e.indexOf(b)) return e.substring(b.length, e.length);
+  }
+  return null;
+}
+function eraseCookie(a) {
+  createCookie(a, "", -1);
+}
+function crtmedir(a) {
+  var b = document.createDocumentFragment(),
+    c = document.createElement("div");
+  for (c.innerHTML = a; c.firstChild; ) b.appendChild(c.firstChild);
+  return b;
+}
+function startTimer(start, duration, display) {
+  var diff, minutes, seconds;
+  function timer() {
+    diff = duration - (((Date.now() - start) / 1000) | 0);
+    minutes = (diff / 60) | 0;
+    seconds = diff % 60 | 0;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    display.textContent = minutes + ":" + seconds;
+    if (diff <= 0) {
+      clearInterval(inti);
+      document.getElementById("countdownhere").innerHTML =
+        "Order reservation ended.";
+      start = Date.now() + 1000;
+    }
+  }
+  timer();
+  var inti = setInterval(timer, 1000);
+}
+var pdm = crtmedir(
+  '<div style="margin-top:20px;" class="countdownholder"><img width="15px" style="margin-right: 4px"; src="//cdn.shopify.com/s/files/1/0044/9907/9279/t/7/assets/fire.svg?7101">Items in your cart are in high demand. But we have reserved your order.<div id="countdownhere" style="display:block;background:#fff5d2;padding:10px 20px;border:1px solid #e3df74;font-size:14px;color:#2c2c2c;font-weight:bold;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px; margin:20px 0px">Your order is reserved for <span id="time"></span> minutes!</div></div>'
+);
+if (
+  window.location.href.indexOf("checkout") > -1 &&
+  document.location.href.indexOf("thank_you") === -1 &&
+  document.location.href.indexOf("orders") === -1
+) {
+  window.onload = function() {
+    document.getElementsByClassName("breadcrumb")[0].style.display = "flex";
+    document.getElementsByClassName("breadcrumb")[0].appendChild(pdm);
+    var dolzina = 10;
+    var ten = 60 * dolzina;
+    var starttime = Date.now();
+    var xcnt = readCookie("prtcntdwn");
+    if (xcnt) {
+      if (starttime < xcnt) {
+        ten = (xcnt - starttime) / 1000;
+      } else {
+        eraseCookie("ptcntdwn");
+        createCookie("prtcntdwn", Date.now() + ten * 1000, ten + 1);
+      }
+    } else {
+      createCookie("prtcntdwn", Date.now() + ten * 1000, ten + 1);
+    }
+    display = document.querySelector("#time");
+    startTimer(starttime, ten, display);
+  };
+}
+
+    </script>
+    <!--     COUNTDOWN -->
+
+    
+    <style>
+      a, .link {
+    text-decoration: none;
+    color: #e83e8c;
+    -webkit-transition: color 0.2s ease-in-out;
+    transition: color 0.2s ease-in-out;
+}
+          .input-checkbox:checked, .input-radio:checked{.input-checkbox:checked, .input-radio:checked {
+    border: none;
+    -webkit-box-shadow: 0 0 0 10px #e83e8c inset;
+    box-shadow: 0 0 0 10px #e83e8c inset;
+          }
+    </style>
+  </body>
+</html>

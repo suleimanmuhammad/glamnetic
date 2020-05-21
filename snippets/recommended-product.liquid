@@ -1,0 +1,22 @@
+
+{% assign product_collection = product.collections[0].title | handle %}
+
+<div class="simple-collection product-recommendations">
+      <div class="wrapper">
+        <header>
+            <h4>You may also like</h4>
+        </header>
+        <div class="the-recomended-gds">
+          {% for product in collections[product_collection].products limit: 15 %}
+            {% include 'product-grid-item' %}
+            {% endfor %}
+        </div>
+      </div>
+  </div> 
+
+
+
+
+
+
+

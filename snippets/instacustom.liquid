@@ -1,0 +1,124 @@
+<style>
+  
+  
+  .flickity-button:disabled {
+    cursor: auto !important;
+    pointer-events: visible !important;
+    display: block !important;
+    opacity: 1 !important;
+}
+</style>
+<div class="single_product_slider insta_desktop_slider center" >
+        <h1 class="maylike">Styled On Instagram</h1>
+        <div id="custominstas" class="sm-instagram-feed instagram_feed" style="display:none;"></div>
+
+<div class="covet-pics-gallery" data-id="72070"></div>
+  
+     <div class="instawrap">
+   
+     <a href="https://www.instagram.com/glamnetic/"><img draggable="false" id="instabut" src="https://cdn.shopify.com/s/files/1/0139/2302/4944/files/isntabuthalf2.jpg" /></a>
+</div>
+
+</div>
+<!---   <script src="{{ 'jquery.instagramFeed.js' | asset_url }}"></script>
+
+
+ @sm intstagram feed custom      
+      <div class="single_product_slider insta_desktop_slider center" >
+        <h1 class="maylike">Styled On Instagram</h1>
+        <div id="custominstas" class="sm-instagram-feed instagram_feed" style="display:none;"></div>
+
+        <style>
+          .sm-instagram-feed .lSSlideOuter .lSPager.lSpg {
+            margin: 10px 0 0;
+            padding: 0;
+            text-align: center;
+            display: none;
+          }
+          .sm-instagram-feed .instagram_profile
+          {
+            display: none;
+          }
+          div.sm-instagram-feed img {
+		    width: 100% !important;
+		  }
+            
+            
+        </style>
+        <script> 
+          
+          $(document).ready(function() {
+            
+            window.onload = function(){
+              setTimeout(function(){
+               $("#custominstas").show();
+                $(".p_slider").lightSlider({
+                  item:6,
+                  slideMove:1,
+                  easing: 'cubic-bezier(0.25, 0, 0.25, 1)',
+                  auto:false,
+                  speed:1500,
+                  loop:true,
+                  controls: true,
+
+                  responsive : [
+                    {
+                      breakpoint:800,
+                      settings: {
+                        item:4,
+                        slideMove:1,
+                        slideMargin:6,
+                      }
+                    },
+                    {
+                      breakpoint:480,
+                      settings: {
+                        item:3,
+                        slideMove:1
+                      }
+                    }
+                  ]
+                }); 
+              }, 2000);
+              
+              setTimeout(function(){
+                $('.yotpo-reviews').addClass('clearfix');
+
+              }, 1000);
+              
+            };
+            
+
+          });
+        </script>
+          <script>
+          (function($){
+            $(window).on('load', function(){
+              function displayRaw(json){
+				
+			}
+              $.instagramFeed({
+                'username': 'glamnetic',
+                'container': ".sm-instagram-feed",
+                'display_profile': true,
+                'display_biography': true,
+                'display_gallery': true,
+                'get_raw_json': false,
+                'callback': displayRaw,
+                'styling': true,
+                'items': 8,
+                'items_per_row': 4,
+                'margin': 1 
+              });
+              
+
+            });
+          })(jQuery);
+         
+        </script>
+          <div class="instawrap">
+   
+     <a href="https://www.instagram.com/glamnetic/"><img draggable="false" id="instabut" src="https://cdn.shopify.com/s/files/1/0139/2302/4944/files/isntabuthalf2.jpg" /></a>
+</div>
+      </div>
+      <!--- ////@sm intstagram feed custom -->     

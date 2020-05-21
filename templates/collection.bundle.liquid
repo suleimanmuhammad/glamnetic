@@ -1,0 +1,405 @@
+
+<script>
+    function convert(n) {
+        var l = n.toString().length - 3;
+        var v = n / Math.pow(10, 2);
+        return "$" + v.toFixed(2);
+    }
+
+    let bundle = [];
+
+    let discount = 0;
+
+    const updateBundle = () => {
+        let q = 0;
+        bundle.forEach(item => {
+            q += item.quantity;
+        });
+
+        discount = q <= 2 ? 0 : q <= 3 ? 90 : q <= 4 ? 85 : q <= 6 ? 80 : q <= 9 ? 75 : q <= 13 ? 70 : q <=
+            17 ? 67 : 65;
+
+        document.getElementById('bundle-count').innerHTML = "There are " + q + " items in your bundle.";
+        let list = '';
+        let totalPrice = 0;
+        bundle.forEach(item => {
+            list += "<div class='bundle-item'><p>" + item.name +
+                "</p><div style='display: flex' class='increment'><button class='minus' onclick='increment(" +
+                item.id + ", false)'>-</button><div class='quantity'>" + item.quantity +
+                "</div><button class='plus' onclick='increment(" + item.id +
+                ", true)'>+</button></div></div>";
+            totalPrice += item.price * item.quantity;
+        });
+        document.getElementById('nameList').innerHTML = list;
+        if (discount !== 0) {
+            document.getElementById('bundlePrice').innerHTML = "Bundle Price: <span class='slashed'>" + convert(
+                    totalPrice) +
+                "</span> " + convert(totalPrice * discount / 100);
+            document.getElementById('discount').innerHTML = "Discount: " + (100 - discount) + "% off!";
+        } else {
+            document.getElementById('bundlePrice').innerHTML = "Bundle Price: " + convert(totalPrice);
+            document.getElementById('discount').innerHTML = "Discount: none";
+        }
+
+    }
+
+    const add = (id, name, price) => {
+        if (bundle.some(item => item.id === id)) {
+            bundle.forEach(item => {
+                if (item.id === id) {
+                    item.quantity++;
+                }
+            });
+        } else {
+            bundle.push({
+                id,
+                quantity: 1,
+                name,
+                price
+            });
+        }
+        updateBundle();
+    }
+
+    const increment = (id, plus) => {
+        bundle.forEach(item => {
+            if (item.id === id) {
+                if (plus) item.quantity++;
+                else {
+                    if (item.quantity === 1) {
+						bundle = bundle.filter(item => item.id !== id);
+                    } else item.quantity--;
+                };
+            }
+        });
+        updateBundle();
+    }
+
+    const addToCart = () => {
+        let link = '/cart/';
+        bundle.forEach((item, i) => {
+            link += item.id + ":" + item.quantity;
+            if (i !== bundle.length - 1) link += ",";
+        });
+        if (discount > 0) {
+            let percentOff = 100 - discount;
+            link += "?discount=" + percentOff + "_OFF_BUNDLE";
+        };
+        window.location.href = link;
+    }
+</script>
+
+<style>
+    .add-to-bundle,
+    .add-to-cart {
+        font-family: UniversLT-CondensedBold !important;
+        margin-top: 15px;
+        line-height: initial;
+        font-weight: 600;
+        padding: 1vw 4vw 1vw 4vw !important;
+        width: auto;
+        height: auto;
+        background: black !important;
+        color: white !important;
+        text-transform: uppercase;
+    }
+
+    #bundle-count {
+        font-size: 20px;
+    }
+
+    #bundle-model {
+        border-radius: 350px;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: black;
+        height: 100px;
+        position: fixed;
+        bottom: 5%;
+        left: 0;
+        right: 0;
+        margin: auto;
+        transition: .2s ease;
+        color: white;
+        z-index: 99999;
+    }
+
+    #nameList {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bundle-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 300px;
+    }
+
+    .plus,
+    .minus {
+        background: black;
+        color: white;
+        border: 1px solid black;
+    }
+
+    .quantity {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .bundle-item p {
+        margin-right: 20px;
+    }
+
+    @media only screen and (max-width:550px) {
+        .sm_shop_page li {
+            width: 100% !important;
+        }
+
+        .grid__item.small--one-half.medium-up--one-third.rs_lages_section {
+            padding-left: 0;
+        }
+    }
+
+    table {
+        width: 50%;
+        margin: auto;
+    }
+  td, th {
+    padding: 10px;
+    border: 1px solid #f7f7f7;
+}
+  .collpgtitwrap {
+    max-width: max-content;
+    margin: 0 auto;
+}
+
+.collpgtitwrap {
+    display: block;
+    width: 100%;
+    position: relative;
+}
+  .rs_shop_head {
+    font-weight: bold;
+    color: #000 !important;
+    letter-spacing: 0;
+    text-align: center;
+/*     font-family: 'UniversLT-CondensedBold'; */
+    margin-bottom: 30px;
+    text-transform: capitalize;
+    padding: 20px;
+    line-height: 1.0 !important;
+    padding-bottom: 20px !important;
+    text-transform: uppercase !important;
+    font-size: 50px;
+}
+  h1.rs_shop_head, .rs_shop_head.h1, .rs_shop_head.h1--mini {
+    position: relative;
+    width: fit-content;
+    margin: 0 auto;
+    border: 1px solid #000;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: 34px;
+    letter-spacing: normal;
+}
+  p.p1 {
+    text-align: center;
+}
+
+    @media only screen and (max-width:700px) {
+        table {
+            width: 100%;
+        }
+
+        #bundle-model {
+            width: 90%;
+        }
+    }
+</style>
+
+<div class="lages product-detail">
+    <div class="collpgtitwrap">
+        <h1 class="rs_shop_head">{{ collection.title }}</h1>
+    </div>
+    <style>
+        td {
+            text-align: center;
+        }
+    </style>
+  {{collection.description}}
+    <table style="border-collapse: collapse; height: 71px;" border="1">
+        <tbody>
+            <tr style="height: 18px; text-align: center;">
+                <td style="width: 50%; height: 18px;">2 items = no discount</td>
+                <td style="width: 50%; height: 18px;">7-9 items = 25% off</td>
+            </tr>
+            <tr style="height: 18px; text-align: center;">
+                <td style="width: 50%; height: 18px;">3 items = 10% off</td>
+                <td style="width: 50%; height: 18px;">10-13 items = 30% off</td>
+            </tr>
+            <tr style="height: 17px;">
+                <td style="width: 50%; height: 17px; text-align: center;">4 items = 15% off</td>
+                <td style="width: 50%; height: 17px; text-align: center;">14-17 items = 33%</td>
+            </tr>
+            <tr style="height: 18px;">
+                <td style="width: 50%; height: 18px; text-align: center;">5-6 items = 20% off</td>
+                <td style="width: 50%; height: 18px;"><span style="text-align: center;">18 or more items = 35%
+                        off</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div class="page-width bundle-collection">
+        <div class="grid grid--no-gutters grid--uniform space_padd">
+            {% for product in collection.products %}
+            <div class="grid__item small--one-half medium-up--one-third rs_lages_section">
+                <div class="sm_shop_page">
+                    <!---shop page-->
+                    {% comment %}
+                    The product card snippet is passed a liquid object, used in this file
+                    as "product". The object is either "product" or "item", the latter if
+                    it is from search results.
+                    {% endcomment %}
+                    <div class="sm_{{ product.id }}">
+                            <a href="{{ product.url }}">
+                                <div class="colitmpicwrap">
+                                    {% for tag in product.tags %}
+                                    {% if tag contains 'new' %}
+                                    <img class="newstamp coll" src="{{ 'newstamp.png' | asset_img_url }}" />
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if product.compare_at_price_max > product.price %}
+                                    <div class="discounted" style="display:none;">
+                                        <p class="discount">Save
+                                            {{ product.compare_at_price_max | minus: product.price | money_without_trailing_zeros }}
+                                        </p>
+                                    </div>
+                                    {% endif %}
+                                    <div class="product-card__overlay">
+                                        {% assign view_string_length = 'products.product.view' | t | size %}
+                                        <span
+                                            class="btn product-card__overlay-btn {% if view_string_length > 8 %} btn--narrow{% endif %}">Quick
+                                            {{ 'products.product.view' | t }}</span>
+                                    </div>
+                                    <img class="lazyload collectionimg"
+                                        src="{{ product.featured_image | product_img_url: '250x' }}"
+                                        data-src="{{ product.featured_image | product_img_url: 'master' }}"
+                                        alt="{{ product.title | escape  }}" />
+                                </div>
+                            </a>
+                            <div class="sm_product_meta">
+                                <div class="product_review">
+                                    <div data-oke-reviews-product-listing-rating>
+                                        {{ product.metafields.okendo.ProductListingSnippet }}</div>
+                                </div>
+                                <a id="collectionprodtit" class="shop-now skbtn"
+                                    href="{{ product.url }}">{{ product.title | escape  }}</a>
+                                <div class="sm_price">
+                                    {{ product.price | money_without_trailing_zeros }}
+                                    {% if product.price < product.compare_at_price %}
+                                    <del style="font-size:14px;">
+                                        {{ product.compare_at_price | money_without_trailing_zeros }}</del>
+                                    {% endif %}
+                                </div>
+
+                                <button class="grid-cart-btn the-cart-btn  "
+                                    onclick="add({{ product.variants.first.id }}, `{{product.title}}`, {{product.price}})">{% if product.variants.first.inventory_quantity < 1 %}PREORDER{% else %}ADD{% endif %}</button>
+
+                            </div>
+                    </div>
+                </div>
+                <!---end shop page-->
+            </div>
+            {% else %}
+            {% comment %}
+            Add default products to help with onboarding for collections/all only.
+            The onboarding styles and products are only loaded if the
+            store has no products.
+            {% endcomment %}
+            {% if shop.products_count == 0 %}
+            <div class="grid__item">
+                <div class="grid grid--no-gutters grid--uniform">
+                    {% assign collection_index = 1 %}
+                    {% for i in (1..10) %}
+                    {% case i %}
+                    {% when 7 %}
+                    {% assign collection_index = 1 %}
+                    {% when 8 %}
+                    {% assign collection_index = 2 %}
+                    {% when 9 %}
+                    {% assign collection_index = 3 %}
+                    {% when 10 %}
+                    {% assign collection_index = 4 %}
+                    {% endcase %}
+                    <div class="grid__item small--one-half medium-up--one-fifth">
+                        <a href="/admin/products" class="product-card">
+                            <div class="product-card__image-container">
+                                <div class="product-card__image-wrapper">
+                                    <div class="product-card__image">
+                                        {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                                        {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card__info sm">
+                                <div class="product-card__name">{{ 'homepage.onboarding.product_title' | t }}</div>
+                                <div class="product-card__price">
+                                    $19.99
+                                </div>
+                            </div>
+                            <div class="product-card__overlay">
+                                {% assign view_string_length = 'products.product.view' | t | size %}
+                                <span
+                                    class="btn product-card__overlay-btn {% if view_string_length > 8 %} btn--narrow{% endif %}">{{ 'products.product.view' | t }}</span>
+                            </div>
+                        </a>
+                    </div>
+                    {% assign collection_index = collection_index | plus: 1 %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            {% comment %}
+            If collection exists but is empty, display message
+            {% endcomment %}
+            <div class="grid__item small--text-center">
+                <h5 class="sk center">{{ 'collections.general.no_matches' | t }}</h5>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <div id="bundle-model">
+            <p id="bundle-count">There are 0 items in your bundle.</p>
+            <a href="#bundle-info">View Bundle Contents</a>
+        </div>
+
+        <div id="bundle-info">
+            <hr>
+            <style>
+                .slashed {
+                    text-decoration: line-through;
+                }
+
+                ;
+            </style>
+            <p id="discount">Discount: none</p>
+            <h3 id="bundlePrice">Bundle Price: 0</h3>
+            <div id="nameList">
+            </div>
+            <button class="add-to-cart" onclick='addToCart()'>ADD BUNDLE TO CART</button>
+        </div>
+
+
+    </div>
+</div>
+

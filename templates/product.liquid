@@ -1,0 +1,17 @@
+{% comment %}
+  The contents of the product.liquid template can be found in /sections/product-template.liquid
+{% section 'product-recommendations' %}
+{% endcomment %}
+
+
+{% section 'product-template' %}
+{% include 'recommended-product' %}
+<div class="container">
+ <div class="page-width review_section">
+    <h1 class="maylike">REVIEWS</h1>
+    {% include 'okendo-reviews-widget' %}
+  </div>
+</div>  
+
+{% include 'instacustom'%}
+{% include 'newsletter'%}

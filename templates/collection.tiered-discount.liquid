@@ -1,0 +1,769 @@
+
+<script>
+    function convert(n) {
+        var l = n.toString().length - 3;
+        var v = n / Math.pow(10, 2);
+        return "$" + v.toFixed(2);
+    }
+
+    let bundle = [];
+
+    let discount = 0;
+
+    const updateBundle = () => {
+        let q = 0;
+        bundle.forEach(item => {
+            q += item.quantity;
+        });
+
+        discount = q <= 2 ? 0 : q <= 3 ? 90 : q <= 4 ? 85 : q <= 6 ? 80 : q <= 9 ? 75 : q <= 13 ? 70 : q <=
+            17 ? 67 : 65;
+
+        document.getElementById('bundle-count').innerHTML = "There are " + q + " items in your bundle.";
+        let list = '';
+        let totalPrice = 0;
+        bundle.forEach(item => {
+            list += "<div class='bundle-item'><p>" + item.name +
+                "</p><div style='display: flex' class='increment'><button class='minus' onclick='increment(" +
+                item.id + ", false)'>-</button><div class='quantity'>" + item.quantity +
+                "</div><button class='plus' onclick='increment(" + item.id +
+                ", true)'>+</button></div></div>";
+            totalPrice += item.price * item.quantity;
+        });
+        document.getElementById('nameList').innerHTML = list;
+        if (discount !== 0) {
+            document.getElementById('bundlePrice').innerHTML = "Bundle Price: <span class='slashed'>" + convert(
+                    totalPrice) +
+                "</span> " + convert(totalPrice * discount / 100);
+            document.getElementById('discount').innerHTML = "Discount: " + (100 - discount) + "% off!";
+        } else {
+            document.getElementById('bundlePrice').innerHTML = "Bundle Price: " + convert(totalPrice);
+            document.getElementById('discount').innerHTML = "Discount: none";
+        }
+
+    }
+
+    const add = (id, name, price) => {
+        if (bundle.some(item => item.id === id)) {
+            bundle.forEach(item => {
+                if (item.id === id) {
+                    item.quantity++;
+                }
+            });
+        } else {
+            bundle.push({
+                id,
+                quantity: 1,
+                name,
+                price
+            });
+        }
+        updateBundle();
+    }
+
+    const increment = (id, plus) => {
+        bundle.forEach(item => {
+            if (item.id === id) {
+                if (plus) item.quantity++;
+                else {
+                    if (item.quantity === 1) {
+						bundle = bundle.filter(item => item.id !== id);
+                    } else item.quantity--;
+                };
+            }
+        });
+        updateBundle();
+    }
+
+    const addToCart = () => {
+        let link = '/cart/';
+        bundle.forEach((item, i) => {
+            link += item.id + ":" + item.quantity;
+            if (i !== bundle.length - 1) link += ",";
+        });
+        if (discount > 0) {
+            let percentOff = 100 - discount;
+            link += "?discount=" + percentOff + "_OFF_BUNDLE";
+        };
+        window.location.href = link;
+    }
+</script>
+
+<style>
+  @font-face{font-family:UniverseCondensedBold;src:url(//cdn.shopify.com/s/files/1/0139/2302/4944/t/44/assets/Univers-CondensedBold.woff?v=7748560387719067162);}
+@media all{
+*,*:before,*:after{box-sizing:border-box;}
+::-webkit-input-placeholder{color:#666;opacity:0.6;}
+:-moz-placeholder{color:#666;opacity:0.6;}
+:-ms-input-placeholder{color:#666;opacity:0.6;}
+::-ms-input-placeholder{color:#666;opacity:0.6;opacity:1;}
+.okeReviews .okeReviews-reviewsSummary-ratingCount{font-size:16px;text-transform:uppercase;line-height:1;}
+.sm_product_meta .okeReviews-reviewsSummary-ratingCount{font-size:12px!important;font-family:'UniversLT-Condensed'!important;}
+.sm_product_meta .okeReviews .okeReviews-starRating--small{width:80px!important;height:22px!important;}
+.sm_product_meta .okeReviews .okeReviews-starRating--small .okeReviews-starRating-indicator-layer{background-size:80px 20px!important;}
+}
+@media all{
+*{outline:0!important;}
+@media (max-width: 800px){
+}
+}
+.okeReviews{font-size:14px;font-weight:400;line-height:1.6;}
+.okeReviews *,.okeReviews :after,.okeReviews :before{box-sizing:border-box;}
+.okeReviews .okeReviews-a11yText{border:0;clip:rect(0 0 0 0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;}
+.okeReviews .okeReviews-reviewsSummary,.okeReviews .okeReviews-reviewsSummary-ratingCount,.okeReviews .okeReviews-reviewsSummary-starRating{display:inline-block;}
+.okeReviews .okeReviews-reviewsSummary-starRating{margin-right:.25em;}
+.okeReviews .okeReviews-reviewsSummary-ratingCount{margin:.25em 0;vertical-align:middle;}
+.okeReviews .okeReviews-starRating{display:inline-block;height:25px;position:relative;vertical-align:middle;width:125px;}
+.okeReviews .okeReviews-starRating-indicator{bottom:0;left:0;position:absolute;right:0;top:0;}
+.okeReviews .okeReviews-starRating-indicator-layer{background-image:url(https://d3hw6dc1ow8pp2.cloudfront.net/icons/star-rating-background.svg);background-repeat:no-repeat;background-size:125px 25px;bottom:0;content:"";display:block;left:0;position:absolute;right:0;top:0;}
+.okeReviews .okeReviews-starRating-indicator-layer--foreground{background-image:url(https://d3hw6dc1ow8pp2.cloudfront.net/icons/star-rating-foreground.svg);width:0;}
+.okeReviews .okeReviews-starRating--small{height:20px;width:100px;}
+.okeReviews .okeReviews-starRating--small .okeReviews-starRating-indicator-layer{background-size:100px 20px;}
+.okeReviews.okeReviews--theme .okeReviews-starRating-indicator-layer--foreground{background-image:url('data:image/svg+xml;charset=UTF-8, %3Csvg%20width%3D%2280%22%20height%3D%2214%22%20viewBox%3D%220%200%2080%2014%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cg%20fill%3D%22%23000000%22%20fill-rule%3D%22evenodd%22%3E%3Cpath%20d%3D%22M71.996%2011.368l-3.94%202.42c-.474.292-.756.096-.628-.443l1.074-4.53-3.507-3.022c-.422-.363-.324-.693.24-.74l4.602-.37%201.778-4.3c.21-.51.55-.512.762%200l1.78%204.3%204.602.37c.552.046.666.37.237.74l-3.507%203.02%201.075%204.532c.127.536-.147.74-.628.444l-3.94-2.422zM55.996%2011.368l-3.94%202.42c-.474.292-.756.096-.628-.443l1.074-4.53-3.507-3.022c-.422-.363-.324-.693.24-.74l4.602-.37%201.778-4.3c.21-.51.55-.512.762%200l1.78%204.3%204.602.37c.552.046.666.37.237.74l-3.507%203.02%201.075%204.532c.127.536-.147.74-.628.444l-3.94-2.422zM40.123%2011.368l-3.94%202.42c-.475.292-.756.096-.63-.443l1.076-4.53-3.508-3.022c-.422-.363-.324-.693.24-.74l4.602-.37%201.778-4.3c.21-.51.55-.512.762%200l1.778%204.3%204.603.37c.554.046.667.37.24.74l-3.508%203.02%201.075%204.532c.127.536-.147.74-.628.444l-3.94-2.422zM24.076%2011.368l-3.94%202.42c-.475.292-.757.096-.63-.443l1.076-4.53-3.507-3.022c-.422-.363-.324-.693.238-.74l4.603-.37%201.78-4.3c.21-.51.55-.512.76%200l1.78%204.3%204.602.37c.554.046.667.37.24.74l-3.508%203.02%201.074%204.532c.127.536-.146.74-.628.444l-3.94-2.422zM8.123%2011.368l-3.94%202.42c-.475.292-.756.096-.63-.443l1.076-4.53L1.12%205.792c-.422-.363-.324-.693.24-.74l4.602-.37%201.778-4.3c.21-.51.55-.512.762%200l1.778%204.3%204.603.37c.554.046.667.37.24.74l-3.508%203.02%201.075%204.532c.127.536-.147.74-.628.444l-3.94-2.422z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');}
+ a.shop-now.skbtn {
+       font-family: universlt-condensed;
+    text-transform: uppercase;
+    letter-spacing:-2px !important;
+    font-weight: 500;
+    font-size:28.8px;
+}
+  .sm_price {
+    font-family: 'UniversLT-Condensed';
+}
+.sm_price {
+    font-size: 1.5em !important;
+    color: #000000;
+}
+  .sm_price span.money {
+    font-weight: 300;
+}
+.sm_price .money {
+    color: #cd141f;
+    font-size: 24px;
+}
+  span.btn.product-card__overlay-btn, span.product-card__overlay-btn.btn--secondary, .shopify-payment-button span.product-card__overlay-btn.shopify-payment-button__button--unbranded {
+    font-family: UniverseCondensedBold !important;
+  }
+  .add-to-bundle, .add-to-cart {
+    font-family: UniversLT-CondensedBold !important;
+    font-size: 16px !important;
+    border:1px solid black !important;
+  } 
+  .sm_product_meta{
+  text-align:center;}
+  .product-card__overlay-btn {
+    position: relative;
+    top: 50%;
+    -ms-transform: translateY(-45%);
+    -webkit-transform: translateY(-45%);
+    transform: translateY(-45%);
+    transition: all 0.15s ease-in;
+}
+  .btn, .btn--secondary, .rte .btn--secondary, .shopify-payment-button .shopify-payment-button__button--unbranded, .btn--secondary {
+    font-size: 0.8125em;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 15px 45px;
+    transition: color 0.1s ease-in,background-color 0.1s ease-in;
+}
+.btn, .btn--secondary, .rte .btn--secondary, .shopify-payment-button .shopify-payment-button__button--unbranded, .rte .btn, .rte .btn--secondary, .rte .shopify-payment-button .shopify-payment-button__button--unbranded, .shopify-payment-button .rte .shopify-payment-button__button--unbranded {
+    display: inline-block;
+    width: auto;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    cursor: pointer;
+    border: 1px solid transparent;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #f6acad;
+    color: #fff;
+}
+  span.btn.product-card__overlay-btn:hover, span.product-card__overlay-btn.btn--secondary:hover, .shopify-payment-button span.product-card__overlay-btn.shopify-payment-button__button--unbranded:hover {
+    background-color: transparent !important;
+    border: 2px solid #000;
+    color: #000;
+}
+
+.lages .btn:hover {
+    background-color: rgb(254, 228, 231, 0.5);
+    color: #000;
+    transition: 0.6s;
+    border: 1px solid #000;
+}
+
+.grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-left: -20px;
+}.medium-up--one-third {
+    width: 33.33333%;
+    -ms-flex-preferred-size: 33.33333%;
+    -webkit-flex-basis: 33.33333%;
+    -moz-flex-basis: 33.33333%;
+    flex-basis: 33.33333%;
+}
+.sm_shop_page {
+    margin-right: 4%;
+}
+.colitmpicwrap {
+    display: block;
+    position: relative;
+}
+.product-card__overlay {
+    background-color: rgba(255,255,255,0.7);
+}
+
+.product-card__overlay {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.06);
+    transition: all 0.15s ease-in;
+}
+.page-width {
+    *zoom: 1;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+.grid--no-gutters {
+    margin-left: 0;
+  margin-top:100px;
+}
+.colitmpicwrap:hover .product-card__overlay, .colitmpicwrap:focus .product-card__overlay {
+    visibility: visible;
+    opacity: 1;
+  text-align:center;
+}
+span.btn.product-card__overlay-btn, span.product-card__overlay-btn.btn--secondary, .shopify-payment-button span.product-card__overlay-btn.shopify-payment-button__button--unbranded {
+    background-color: #000;
+    border: 2px solid #000;
+    color: #fff;
+    font-family: universecondensedbold !important;
+    font-size: 14px;
+    letter-spacing: 6px;
+}
+.product-card__overlay {
+    background-color: rgba(255,255,255,0.7);
+}
+    .add-to-bundle,
+    .add-to-cart {
+        font-family: UniversLT-CondensedBold !important;
+        margin-top: 15px;
+        line-height: initial;
+        font-weight: 600;
+        padding: 1vw 4vw 1vw 4vw !important;
+        width: auto;
+        height: auto;
+        background: black !important;
+        color: white !important;
+        text-transform: uppercase;
+    }
+
+    #bundle-count {
+        font-size: 20px;
+    }
+
+    #bundle-model {
+        border-radius: 350px;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background: black;
+        height: 100px;
+        position: fixed;
+        bottom: 5%;
+        left: 0;
+        right: 0;
+        margin: auto;
+        transition: .2s ease;
+        color: white;
+        z-index: 99999;
+    }
+
+    #nameList {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .bundle-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 300px;
+    }
+
+    .plus,
+    .minus {
+        background: black;
+        color: white;
+        border: 1px solid black;
+    }
+
+    .quantity {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .bundle-item p {
+        margin-right: 20px;
+    }
+
+    @media only screen and (max-width:550px) {
+        .sm_shop_page li {
+            width: 100% !important;
+        }
+
+        .grid__item.small--one-half.medium-up--one-third.rs_lages_section {
+            padding-left: 0;
+        }
+    }
+
+    table {
+        width: 50%;
+        margin: auto;
+    }
+
+    @media only screen and (max-width:700px) {
+        table {
+            width: 100%;
+        }
+
+        #bundle-model {
+            width: 90%;
+        }
+    }
+  .single_product_slider.insta_desktop_slider {
+    margin-top: 50px;
+}
+.single_product_slider .maylike {
+    font-size: 17px;
+    letter-spacing: 4.5px;
+    margin-bottom: 30px;
+}
+h1.maylike {
+    font-family: UniverseCondensedBold;
+    font-size: 15px;
+    letter-spacing: 3px;
+}  
+  .center {
+    text-align: center;
+    margin: 0px auto;
+}
+  #bundle-info{
+  text-align:center;
+  margin:50px auto;}
+  .sm_footer_newsletter {
+    padding: 50px 0px 10px !important;
+}
+  .form-vertical {
+    width: 90%;
+    text-align: center;
+    margin: 0px auto;
+}
+  .form-vertical input, .form-vertical select, .form-vertical textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+  #email_signup .input-group {
+    flex-direction: column;
+}
+  .newsletter_section {
+    text-align: center;
+    display: block !important;
+       margin: 0px auto;
+}
+
+input.site-footer__newsletter-input {
+    font-size: x-large;
+    text-align: center;
+    font-family: UniverseCondensedBold;
+    box-shadow: rgba(248, 191, 192, 0.25) 10px 10px 28px -2px;
+    border-radius: 0px;
+    border-width: 0px 0px 2px;
+    border-style: solid;
+    border-color: rgb(229, 229, 229) rgb(229, 229, 229) rgb(244, 139, 165);
+    border-image: initial;
+    border-bottom: 2px solid rgb(244, 139, 165);
+}
+  .newsletter_section {
+    display: flex;
+    width: 90%;
+}
+  .newsletter_section .input-group__field, .input-group__btn .btn, .input-group__btn .btn--secondary, .input-group__btn .shopify-payment-button .shopify-payment-button__button--unbranded, .shopify-payment-button .input-group__btn .shopify-payment-button__button--unbranded {
+    border-radius: 7px 0px 0px 7px;
+}
+  button#newssubbtn {
+    background-color: transparent;
+    font-family: UniversLT-CondensedBold;
+    border-radius: 0px;
+    padding: 0px;
+    margin: 40px auto 0px;
+}
+#newssubbtn {
+    height: auto;
+}
+
+.btn:not(:disabled):not(.disabled) {
+    cursor: pointer;
+}
+  h3.sk.center, .sk.center.h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+  .sm_footer_newsletter h5 {
+     margin: 10px 0px 23px;
+}
+  #k_id_email::placeholder{
+  color:White;}
+  #discount{
+  text-transform:none !important;} 
+  .slashed {
+    text-decoration: line-through;
+}
+  .p1{
+max-width:90%;
+text-align:center;
+margin-left:auto;
+margin-right:auto
+}
+
+  h1.rs_shop_head, .rs_shop_head.h1, .rs_shop_head.h1--mini {
+    position: relative;
+    width: fit-content;
+    font-size: 34px;
+    letter-spacing: normal;
+    margin: 40px auto;
+    border-width: 1px !important;
+    border-style: solid !important;
+    border-color: rgb(0, 0, 0) !important;
+    border-image: initial;
+}
+  button#newssubbtn {
+    background-color: transparent;
+    font-family: UniversLT-CondensedBold;
+    border-radius: 0px;
+    padding: 0px;
+    margin: 40px auto 0px;
+}
+  
+  #newssubbtn .skbtn {
+    display: inline-block;
+}
+span#subbutns {
+    font-size: 2vw;
+    letter-spacing: 0px;
+}
+span.skbtn {
+    font-size: 1.5vw;
+    background-color: rgb(0, 0, 0);
+    padding: 1vw 4vw;
+}
+  .btn {
+    background-color: black !important;
+}
+  @media only screen and (min-width: 950px)
+
+  {
+    .sm_footer_newsletter {
+    margin-bottom: 140px;
+}
+    .site-footer {
+    padding-top: 40px;
+}
+    span#subbutns {
+    font-size: 2vw;
+    letter-spacing: 0px;
+}
+span.skbtn {
+    font-size: 1.5vw;
+    background-color: rgb(0, 0, 0);
+    padding: 1vw 4vw;
+}
+    
+    span.skbtn:hover{
+    color:#FF6790 !important}
+    button.btn.skbtn {
+    letter-spacing: 0.2px;
+    font-size: 1.9vw;
+    font-family: UniversLT-CondensedBold;
+}
+
+    h3#xtralargeh3 {
+    padding-top: 100px;
+    font-size: 5.2vw !important;
+  text-align:center;
+}
+  h5#lowrcs {
+    text-transform: none;
+    letter-spacing: 0.5px;
+    font-size: 1.5vw !important;
+}
+  input.site-footer__newsletter-input {
+    width: 70% !important;
+    margin: 0px auto 20px !important;
+}
+    .newsletter_section .input-group__field{
+    border-radius:0px !important;
+   }
+  
+  button#newssubbtn {
+    background-color: transparent;
+    font-family: UniversLT-CondensedBold;
+    border-radius: 0px;
+    padding: 0px;
+    margin: 40px auto 0px;
+}
+  #newssubbtn {
+    height: auto;
+    line-height: initial;
+    font-weight: 600;
+    width: auto;
+    height: auto;
+    padding: 1vw 4vw !important;
+}
+  }
+  @media only screen and (max-width:480px){
+    h3#xtralargeh3, #xtralargeh3.h3{
+    height:100% !important;
+    overflow:hidden;}
+    span#subbutns {
+    font-size: 20px;
+      padding-bottom:0;
+ 
+    }
+    button#newssubbtn{
+    padding:3px !important;}
+    .newsletter_section .input-group__field {
+    border-radius: 0;
+    }.newsletter_section{
+    width:100% !important;}
+   button#newssubbtn {
+    background-color: black;
+    font-family: UniversLT-CondensedBold;
+    border-radius: 0px;
+    padding: 25px;
+    margin: 40px auto 0px;
+    width: 100%;
+    border-radius: 0;
+}
+    .newsletter_section .input-group__field{
+    height:100% !important;}
+    
+    #bundle-count {
+    font-size: 20px !important;
+    font-size: 16px !important;
+}
+    .okeReviews .okeReviews-reviewsSummary-ratingCount {
+     margin-top: 2px !important;
+}
+    .medium-up--one-third {
+    width:100%;
+    -ms-flex-preferred-size:100%;
+    -webkit-flex-basis:100%;
+    -moz-flex-basis:100%;
+    flex-basis:100%;
+}
+    .p1{
+max-width:100%;
+    width:100%;}
+    table {
+    width: 90%;
+}
+  }
+</style>
+
+<div class="lages product-detail">
+    <div class="collpgtitwrap">
+        <h1 class="rs_shop_head">{{ collection.title }}</h1>
+    </div>
+    <style>
+        td {
+            text-align: center;
+        }
+    </style>
+  {{collection.description}}
+    <table style="border-collapse: collapse; height: 71px;" border="1">
+        <tbody>
+            <tr style="height: 18px; text-align: center;">
+                <td style="width: 50%; height: 18px;">2 items = no discount</td>
+                <td style="width: 50%; height: 18px;">7-9 items = 25% off</td>
+            </tr>
+            <tr style="height: 18px; text-align: center;">
+                <td style="width: 50%; height: 18px;">3 items = 10% off</td>
+                <td style="width: 50%; height: 18px;">10-13 items = 30% off</td>
+            </tr>
+            <tr style="height: 17px;">
+                <td style="width: 50%; height: 17px; text-align: center;">4 items = 15% off</td>
+                <td style="width: 50%; height: 17px; text-align: center;">14-17 items = 33%</td>
+            </tr>
+            <tr style="height: 18px;">
+                <td style="width: 50%; height: 18px; text-align: center;">5-6 items = 20% off</td>
+                <td style="width: 50%; height: 18px;"><span style="text-align: center;">18 or more items = 35%
+                        off</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <div class="page-width">
+        <div class="grid grid--no-gutters grid--uniform space_padd">
+            {% for product in collection.products %}
+            <div class="grid__item small--one-half medium-up--one-third rs_lages_section">
+                <div class="sm_shop_page">
+                    <!---shop page-->
+                    {% comment %}
+                    The product card snippet is passed a liquid object, used in this file
+                    as "product". The object is either "product" or "item", the latter if
+                    it is from search results.
+                    {% endcomment %}
+                    <div class="sm_{{ product.id }}">
+                            <a href="{{ product.url }}">
+                                <div class="colitmpicwrap">
+                                    {% for tag in product.tags %}
+                                    {% if tag contains 'new' %}
+                                    <img class="newstamp coll" src="{{ 'newstamp.png' | asset_img_url }}" />
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if product.compare_at_price_max > product.price %}
+                                    <div class="discounted" style="display:none;">
+                                        <p class="discount">Save
+                                            {{ product.compare_at_price_max | minus: product.price | money_without_trailing_zeros }}
+                                        </p>
+                                    </div>
+                                    {% endif %}
+                                    <div class="product-card__overlay">
+                                        {% assign view_string_length = 'products.product.view' | t | size %}
+                                        <span
+                                            class="btn product-card__overlay-btn {% if view_string_length > 8 %} btn--narrow{% endif %}">Quick
+                                            View</span>
+                                    </div>
+                                    <img class="lazyload collectionimg"
+                                        src="{{ product.featured_image | product_img_url: '250x' }}"
+                                        data-src="{{ product.featured_image | product_img_url: 'master' }}"
+                                        alt="{{ product.title | escape  }}" />
+                                </div>
+                            </a>
+                            <div class="sm_product_meta">
+                                <div class="product_review">
+                                    <div data-oke-reviews-product-listing-rating>
+                                        {{ product.metafields.okendo.ProductListingSnippet }}</div>
+                                </div>
+                                <a id="collectionprodtit" class="shop-now skbtn"
+                                    href="{{ product.url }}">{{ product.title | escape  }}</a>
+                                <div class="sm_price">
+                                    {{ product.price | money_without_trailing_zeros }}
+                                    {% if product.price < product.compare_at_price %}
+                                    <del style="font-size:14px;">
+                                        {{ product.compare_at_price | money_without_trailing_zeros }}</del>
+                                    {% endif %}
+                                </div>
+
+                                <button class="add-to-bundle"
+                                    onclick="add({{ product.variants.first.id }}, `{{product.title}}`, {{product.price}})">{% if product.variants.first.inventory_quantity < 1 %}PREORDER{% else %}ADD{% endif %}</button>
+
+                            </div>
+                    </div>
+                </div>
+                <!---end shop page-->
+            </div>
+            {% else %}
+            {% comment %}
+            Add default products to help with onboarding for collections/all only.
+            The onboarding styles and products are only loaded if the
+            store has no products.
+            {% endcomment %}
+            {% if shop.products_count == 0 %}
+            <div class="grid__item">
+                <div class="grid grid--no-gutters grid--uniform">
+                    {% assign collection_index = 1 %}
+                    {% for i in (1..10) %}
+                    {% case i %}
+                    {% when 7 %}
+                    {% assign collection_index = 1 %}
+                    {% when 8 %}
+                    {% assign collection_index = 2 %}
+                    {% when 9 %}
+                    {% assign collection_index = 3 %}
+                    {% when 10 %}
+                    {% assign collection_index = 4 %}
+                    {% endcase %}
+                    <div class="grid__item small--one-half medium-up--one-fifth">
+                        <a href="/admin/products" class="product-card">
+                            <div class="product-card__image-container">
+                                <div class="product-card__image-wrapper">
+                                    <div class="product-card__image">
+                                        {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                                        {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-card__info sm">
+                                <div class="product-card__name">{{ 'homepage.onboarding.product_title' | t }}</div>
+                                <div class="product-card__price">
+                                    $19.99
+                                </div>
+                            </div>
+                            <div class="product-card__overlay">
+                                {% assign view_string_length = 'products.product.view' | t | size %}
+                                <span
+                                    class="btn product-card__overlay-btn {% if view_string_length > 8 %} btn--narrow{% endif %}">Quick
+                                            View</span>
+                            </div>
+                        </a>
+                    </div>
+                    {% assign collection_index = collection_index | plus: 1 %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            {% comment %}
+            If collection exists but is empty, display message
+            {% endcomment %}
+            <div class="grid__item small--text-center">
+                <h5 class="sk center">{{ 'collections.general.no_matches' | t }}</h5>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <div id="bundle-model">
+            <p id="bundle-count">There are 0 items in your bundle.</p>
+            <a href="#bundle-info">View Bundle Contents</a>
+        </div>
+
+        <div id="bundle-info">
+       
+            <p id="discount">Discount: none</p>
+            <h3 id="bundlePrice">Bundle Price: 0</h3>
+            <div id="nameList">
+            </div>
+            <button class="add-to-cart" onclick='addToCart()'>ADD BUNDLE TO CART</button>
+        </div>
+
+
+    </div>
+</div>
+
+
+{% include 'instacustom'%}
+{% include 'newsletter'%}
